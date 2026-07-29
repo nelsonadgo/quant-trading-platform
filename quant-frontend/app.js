@@ -1,5 +1,5 @@
 // Constantes globales
-const URL_BACKEND = "https://quant-trading-platform-eulw.onrender.com"; // Cambiado a la URL de Render
+const URL_BACKEND = "https://quant-trading-platform-eulw.onrender.com/api/v1"; // Cambiado a la URL de Render
 let chart, candlestickSeries, lineSeries; // Añadido lineSeries
 
 // Iniciar el gráfico
