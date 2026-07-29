@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quant Trading Dashboard</title>
+    
+    <!-- Enlace a nuestra hoja de estilos externa -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Importamos TradingView Lightweight Charts -->
+     <script src="https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h2>Quant Terminal</h2>
+        <input type="text" id="tickerInput" placeholder="Ej: AAPL, SPY, BTC-USD" value="SPY">
+        
+        <!-- Selector de plazo -->
+        <select id="plazoPrediccion">
+            <option value="1">1 Día</option>
+            <option value="15" selected>15 Días</option>
+            <option value="30">30 Días</option>
+        </select>
+        
+        <button onclick="cargarDashboard()">Analizar Activo</button>
+    </div>
+
+    <div class="dashboard">
+        <div class="card">
+            <div id="tvchart"></div>
+        </div>
+        <div class="card ml-panel">
+            <h3>Predicción Random Forest</h3>
+            <p><strong>Cierre Actual:</strong> <span id="precioActual">-</span></p>
+            <p><strong>Tendencia Proyectada:</strong> <br><span id="prediccionDireccion">-</span></p>
+            
+            <hr style="border-color: #2b2b43; margin: 20px 0;">
+            
+            <p>Variación Estimada: <span id="variacionEstimada">-</span>%</p>
+        </div>
+    </div>
+    <!-- Calculadora Black-Scholes -->
+    <div class="calculator-panel">
+        <h3>Calculadora de Opciones (Modelo Black-Scholes)</h3>
+        
+        <div class="calc-grid">
+            <div class="calc-group">
+                <label title="Precio actual del activo subyacente">Precio Spot (S)</label>
+                <input type="number" id="bs-spot" placeholder="Ej: 500" step="0.01">
+            </div>
+            <div class="calc-group">
+                <label title="Precio al que quieres comprar/vender">Precio Strike (K)</label>
+                <input type="number" id="bs-strike" placeholder="Ej: 510" step="0.01">
+            </div>
+            <div class="calc-group">
+                <label title="Tiempo en años (ej: 30 días = 0.082)">Tiempo Expiración (T)</label>
+                <input type="number" id="bs-tiempo" placeholder="Ej: 0.082" step="0.001">
+            </div>
+            <div class="calc-group">
+                <label title="Tasa en decimal (ej: 5% = 0.05)">Tasa Riesgo (r)</label>
+                <input type="number" id="bs-tasa" placeholder="Ej: 0.05" step="0.01">
+            </div>
+            <div class="calc-group">
+                <label title="Volatilidad implícita en decimal (ej: 15% = 0.15)">Volatilidad (σ)</label>
+                <input type="number" id="bs-vol" placeholder="Ej: 0.15" step="0.01">
+            </div>
+            <div class="calc-group">
+                <label>Tipo de Opción</label>
+                <select id="bs-tipo">
+                    <option value="call">Call</option>
+                    <option value="put">Put</option>
+                </select>
+            </div>
+        </div>
+
+        <button onclick="calcularBlackScholes()" style="width: 100%; font-size: 16px;">Calcular Precio Teórico</button>
+        
+        <div class="calc-result">
+            <h4>Precio Justo de la Prima</h4>
+            <p class="precio-teorico" id="bs-resultado">$-.--</p>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="app.js"></script>
+</body>
+</html>
